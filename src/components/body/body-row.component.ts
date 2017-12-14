@@ -20,7 +20,7 @@ import { MouseEvent, KeyboardEvent, Event } from '../../events';
       <datatable-body-cell
         *ngFor="let column of colGroup.columns; let ii = index; trackBy: columnTrackingFn"
         tabindex="-1"
-        [row]="row"
+        [row]="_row"
         [group]="group"
         [expanded]="expanded"
         [isSelected]="isSelected"
@@ -63,10 +63,9 @@ export class DataTableBodyRowComponent implements DoCheck {
 
   @Input() expanded: boolean;
   @Input() rowClass: any;
-  public row: any;
-  @Input('row') set rowSetter(val: any) {
+  @Input() set row(val: any) {
     this.zone.run(() => {
-      this.row = val;
+      this._row = val;
     });
   }
   @Input() group: any;
@@ -129,6 +128,7 @@ export class DataTableBodyRowComponent implements DoCheck {
   };
 
   private _rowDiffer: KeyValueDiffer<{}, {}>;
+  private _row: any;
 
   constructor(
       private differs: KeyValueDiffers,
