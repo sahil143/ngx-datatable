@@ -54,6 +54,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
         [groupRowsBy]="groupRowsBy"
         [groupedRows]="groupedRows"
         [rows]="_internalRows"
+        [treeFromRelation]="treeFromRelation"
         [groupExpansionDefault]="groupExpansionDefault"
         [scrollbarV]="scrollbarV"
         [scrollbarH]="scrollbarH"

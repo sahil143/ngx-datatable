@@ -278,3 +278,23 @@
     }
   }
 }
+
+.gu {
+  &-mirror {
+    position: fixed;
+    z-index: 9999;
+    margin: 0;
+    background-color: red;
+    cursor: grabbing;
+    opacity: 1;
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=80)';
+    filter: alpha(opacity=80);
+  }
+  &-hide { display: none; }
+  &-unselectable { user-select: none; }
+  &-transit {
+    border-color: blue;
+    opacity: .1;
+  }
+}
+

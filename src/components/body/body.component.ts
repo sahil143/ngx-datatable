@@ -6,6 +6,7 @@ import { translateXY, columnsByPin, columnGroupWidths, RowHeightCache } from '..
 import { SelectionType } from '../../types';
 import { ScrollerComponent } from './scroller.component';
 import { MouseEvent } from '../../events';
+import { DragulaService } from 'ng2-dragula/components/dragula.provider';
 
 @Component({
   selector: 'datatable-body',
@@ -23,6 +24,7 @@ import { MouseEvent } from '../../events';
       <datatable-progress
         *ngIf="loadingIndicator">
       </datatable-progress>
+
       <datatable-scroller
         *ngIf="rows?.length"
         [scrollbarV]="scrollbarV"
@@ -31,9 +33,11 @@ import { MouseEvent } from '../../events';
         [scrollWidth]="columnGroupWidths?.total"
         style="transform-style: preserve-3d"
         (scroll)="onBodyScroll($event)">
-        <datatable-row-wrapper
-          [groupedRows]="groupedRows"
-          *ngFor="let group of temp; let i = index; trackBy: rowTrackingFn;"
+        <div [dragula]="'bag'+group[treeFromRelation]"
+        [dragulaModel]="rows"
+        *ngFor="let group of temp; let i = index; trackBy: rowTrackingFn;">
+        <datatable-row-wrapper         
+          [groupedRows]="groupedRows"          
           [innerWidth]="innerWidth"
           [ngStyle]="getRowsStyles(group)"
           [rowDetail]="rowDetail"
@@ -43,7 +47,8 @@ import { MouseEvent } from '../../events';
           [row]="group"
           [expanded]="getRowExpanded(group)"
           [rowIndex]="getRowIndex(group[i])"
-          (rowContextmenu)="rowContextmenu.emit($event)">
+          (rowContextmenu)="rowContextmenu.emit($event)" 
+          >
           <datatable-body-row
             *ngIf="!groupedRows; else groupedRowsTemplate"
             tabindex="-1"
@@ -59,7 +64,8 @@ import { MouseEvent } from '../../events';
             [displayCheck]="displayCheck"
             [treeStatus]="group.treeStatus"
             (treeAction)="onTreeAction(group)"
-            (activate)="selector.onActivate($event, indexes.first + i)">
+            (activate)="selector.onActivate($event, indexes.first + i)"
+            >
           </datatable-body-row>
           <ng-template #groupedRowsTemplate>
             <datatable-body-row
@@ -79,6 +85,7 @@ import { MouseEvent } from '../../events';
             </datatable-body-row>
           </ng-template>
         </datatable-row-wrapper>
+        </div>
       </datatable-scroller>
       <div
         class="empty-row"
@@ -114,6 +121,7 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   @Input() groupExpansionDefault: boolean;
   @Input() innerWidth: number;
   @Input() groupRowsBy: string;
+  @Input() treeFromRelation: string;
   @Input() virtualization: boolean;
 
   @Input() set pageSize(val: number) {
@@ -239,8 +247,11 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   /**
    * Creates an instance of DataTableBodyComponent.
    */
-  constructor(private cd: ChangeDetectorRef) {
+  constructor(private cd: ChangeDetectorRef, private dragulaService: DragulaService) {
     // declare fn here so we can get access to the `this` property
+    dragulaService.dropModel.subscribe((value) => {
+      this.onDropRow(value);
+    });
     this.rowTrackingFn = function(this: any, index: number, row: any): any {
       const idx = this.getRowIndex(row);
       if (this.trackByProp) {
@@ -706,6 +717,11 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
 
   onTreeAction(row: any) {
     this.treeAction.emit({ row });
+  }
+
+  onDropRow(event) {
+    console.log(event);
+    this.rows = [...this.rows];
   }
 
 }

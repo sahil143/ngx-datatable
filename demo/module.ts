@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgxDatatableModule } from '../src';
 import { AppComponent } from './app.component';
 
+import {DragulaModule} from 'ng2-dragula';
+
 // -- Basic
 import { BasicFixedComponent } from './basic/basic-fixed.component';
 import { BasicAutoComponent } from './basic/basic-auto.component';
@@ -114,7 +116,7 @@ import { ColumnPinningComponent } from './columns/pinning.component';
     ClientTreeComponent,
     DropdownDemoComponent
   ],
-  imports: [BrowserModule, NgxDatatableModule],
+  imports: [BrowserModule, NgxDatatableModule, DragulaModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
