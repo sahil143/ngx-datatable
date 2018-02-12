@@ -57,6 +57,7 @@ import { MouseEvent } from '../../events';
             [rowClass]="rowClass"
             [displayCheck]="displayCheck"
             [treeStatus]="group.treeStatus"
+            [treeFromRelation]="treeFromRelation"
             (treeAction)="onTreeAction(group)"
             (activate)="selector.onActivate($event, indexes.first + i)">
           </datatable-body-row>
@@ -74,6 +75,7 @@ import { MouseEvent } from '../../events';
               [rowIndex]="getRowIndex(row)"
               [expanded]="getRowExpanded(row)"
               [rowClass]="rowClass"
+              [treeFromRelation]="treeFromRelation"
               (activate)="selector.onActivate($event, i)">
             </datatable-body-row>
           </ng-template>
@@ -114,6 +116,7 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   @Input() innerWidth: number;
   @Input() groupRowsBy: string;
   @Input() virtualization: boolean;
+  @Input() toTreeRelation: string;
 
   @Input() set pageSize(val: number) {
     this._pageSize = val;
@@ -186,6 +189,8 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   get bodyHeight() {
     return this._bodyHeight;
   }
+
+  @Input() treeFromRelation: string;
 
   @Output() scroll: EventEmitter<any> = new EventEmitter();
   @Output() page: EventEmitter<any> = new EventEmitter();

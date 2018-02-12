@@ -39,9 +39,12 @@ import {
   DimensionsHelper
 } from './services';
 
+import { NgDragDropModule } from 'ng-drag-drop';
+
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    NgDragDropModule.forRoot()
   ],
   providers: [
     ScrollbarHelper,

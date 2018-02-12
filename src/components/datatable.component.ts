@@ -77,6 +77,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
         [rowClass]="rowClass"
         [selectCheck]="selectCheck"
         [displayCheck]="displayCheck"
+        [treeFromRelation]="treeFromRelation"
         (page)="onBodyPage($event)"
         (activate)="activate.emit($event)"
         (rowContextmenu)="onRowContextmenu($event)"

@@ -13,7 +13,9 @@ import { MouseEvent, KeyboardEvent, Event } from '../../events';
   selector: 'datatable-body-row',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div
+    <div draggable [dragScope]="[calculateDnDScope(row), 'item']"
+      droppable [dropScope]="calculateDnDScope(row)"
+      (onDrop)="onItemDrop($event)"
       *ngFor="let colGroup of _columnsByPin; let i = index; trackBy: trackByGroups"
       class="datatable-row-{{colGroup.type}} datatable-row-group"
       [ngStyle]="_groupStyles[colGroup.type]">
@@ -70,6 +72,7 @@ export class DataTableBodyRowComponent implements DoCheck {
   @Input() displayCheck: any;
   // loading, expanded, collapsed
   @Input() treeStatus: 'loading' | 'expanded' | 'collapsed' = 'collapsed';
+  @Input() treeFromRelation: string = '';
 
   @Input()
   set offsetX(val: number) {
@@ -226,5 +229,23 @@ export class DataTableBodyRowComponent implements DoCheck {
 
   onTreeAction() {
     this.treeAction.emit();
+  }
+
+  calculateDnDScope(row) {
+    let parent = '0';
+    if (row.hasOwnProperty(this.treeFromRelation) &&
+      row[this.treeFromRelation]) {
+        parent = row[this.treeFromRelation] + ''; // + '' to stringify
+      }
+    let level = '0';
+    if (row.hasOwnProperty('level') &&
+      row['level']) {
+        level = row['level'] + ''; // + '' to stringify
+      }
+    return parent + level;
+  }
+
+  onItemDrop(e) {
+    console.log(e);
   }
 }
