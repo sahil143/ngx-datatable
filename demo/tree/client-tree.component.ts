@@ -48,6 +48,10 @@ import { Component } from '@angular/core';
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
+
+      <div style="height:200px; width: 300px; border: 1px solid" droppable [dropScope]="'item'">
+
+      </div>
     </div>
   `,
   styles: [

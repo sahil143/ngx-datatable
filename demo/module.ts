@@ -64,6 +64,8 @@ import { ColumnForceComponent } from './columns/column-force.component';
 import { ColumnFlexComponent } from './columns/column-flex.component';
 import { ColumnPinningComponent } from './columns/pinning.component';
 
+import { NgDragDropModule } from 'ng-drag-drop';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -112,7 +114,10 @@ import { ColumnPinningComponent } from './columns/pinning.component';
     BootstrapThemeComponent,
     ClientTreeComponent
   ],
-  imports: [BrowserModule, NgxDatatableModule],
+  imports: [
+    BrowserModule, NgxDatatableModule,
+    NgDragDropModule.forRoot()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
