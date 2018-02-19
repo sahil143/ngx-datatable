@@ -31,6 +31,9 @@ import { MouseEvent } from '../../events';
         [scrollWidth]="columnGroupWidths?.total"
         (scroll)="onBodyScroll($event)">
         <datatable-row-wrapper
+          draggable [dragEnabled]="rowsDraggable" [dragData]="group" [dragScope]="[calculateDnDScope(group), 'item']"
+          droppable [dropEnabled]="rowsDraggable" [dropScope]="calculateDnDScope(group)"
+          (onDrop)="onItemDrop($event, group)"
           [groupedRows]="groupedRows"
           *ngFor="let group of temp; let i = index; trackBy: rowTrackingFn;"
           [innerWidth]="innerWidth"
@@ -117,6 +120,7 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   @Input() groupRowsBy: string;
   @Input() virtualization: boolean;
   @Input() toTreeRelation: string;
+  @Input() rowsDraggable: boolean;
 
   @Input() set pageSize(val: number) {
     this._pageSize = val;
@@ -199,6 +203,7 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   @Output() detailToggle: EventEmitter<any> = new EventEmitter();
   @Output() rowContextmenu = new EventEmitter<{ event: MouseEvent, row: any }>(false);
   @Output() treeAction: EventEmitter<any> = new EventEmitter();
+  @Output() rowDrop: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(ScrollerComponent) scroller: ScrollerComponent;
 
@@ -710,6 +715,28 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
 
   onTreeAction(row: any) {
     this.treeAction.emit({ row });
+  }
+
+  calculateDnDScope(row) {
+    let parent = '0';
+    if (row.hasOwnProperty(this.treeFromRelation) &&
+      row[this.treeFromRelation]) {
+        parent = row[this.treeFromRelation] + ''; // + '' to stringify
+      }
+    let level = '0';
+    if (row.hasOwnProperty('level') &&
+      row['level']) {
+        level = row['level'] + ''; // + '' to stringify
+      }
+    return parent + level;
+  }
+
+  onItemDrop(e, g) {
+    this.rowDrop.emit({
+      src: e.dragData,
+      nativeEvent: e.nativeEvent,
+      target: g
+    });
   }
 
 }

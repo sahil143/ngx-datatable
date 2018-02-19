@@ -13,6 +13,8 @@ import { Component } from '@angular/core';
         </small>
       </h3>
       <ngx-datatable
+        [rowsDraggable]="true"
+        (rowDrop)="onRowDrop($event)"
         class="material"
         [columnMode]="'flex'"
         [headerHeight]="50"
@@ -90,6 +92,24 @@ export class ClientTreeComponent {
       this.rows[index].treeStatus = 'collapsed';
     }
     this.rows = [...this.rows];
+  }
+
+  onRowDrop(event) {
+    console.log(event);
+    let srcelement = this.rows.filter((item) => {
+      return item.name === event.src.name;
+    });
+    this.rows = this.rows.filter((item) => {
+      return item.name !== event.src.name;
+    });
+    let targetindex = this.rows.findIndex((item) => {
+      return item.name === event.target.name;
+    });
+    console.log(srcelement);
+    console.log(targetindex);
+    console.log("### - a", this.rows);
+    this.rows = [...this.rows.slice(0, targetindex+1), ...srcelement, ...this.rows.slice(targetindex+1)];
+    console.log("### - c", this.rows);
   }
 
 }

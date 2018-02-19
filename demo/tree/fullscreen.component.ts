@@ -16,6 +16,8 @@ import { setTimeout } from 'timers';
       <ngx-datatable
         class="material fullscreen"
         style="top: 52px"
+        [rowsDraggable]="true"
+        (rowDrop)="onRowDrop($event)"
         [columnMode]="'force'"
         [headerHeight]="50"
         [footerHeight]="0"
@@ -100,6 +102,23 @@ export class FullScreenTreeComponent {
       this.rows[index].treeStatus = 'collapsed';
       this.rows = [...this.rows];
     }
+  }
+  onRowDrop(event) {
+    console.log(event);
+    let srcelement = this.rows.filter((item) => {
+      return item.id === event.src.id;
+    });
+    this.rows = this.rows.filter((item) => {
+      return item.id !== event.src.id;
+    });
+    let targetindex = this.rows.findIndex((item) => {
+      return item.id === event.target.id;
+    });
+    console.log(srcelement);
+    console.log(targetindex);
+    console.log("### - a", this.rows);
+    this.rows = [...this.rows.slice(0, targetindex+1), ...srcelement, ...this.rows.slice(targetindex+1)];
+    console.log("### - c", this.rows);
   }
 
 }
