@@ -80,6 +80,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
         [treeFromRelation]="treeFromRelation"
         [rowsDraggable]="rowsDraggable"
         [rowDragHandle]="rowDragHandle"
+        [rowExternalDrag]="rowExternalDrag"
         (page)="onBodyPage($event)"
         (activate)="activate.emit($event)"
         (rowContextmenu)="onRowContextmenu($event)"
@@ -460,6 +461,11 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
    * Handle to drag rows
    */
   @Input() rowDragHandle: string = null;
+
+  /**
+   * Drag outside of table
+   */
+  @Input() rowExternalDrag: string[] = [];
 
   /**
    * output for row drop

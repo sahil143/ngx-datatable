@@ -16,6 +16,7 @@ import { Component } from '@angular/core';
         [rowsDraggable]="true"
         (rowDrop)="onRowDrop($event)"
         [rowDragHandle]="'.handleDrag'"
+        [rowExternalDrag]="rowExternalDrag"
         class="material"
         [columnMode]="'flex'"
         [headerHeight]="50"
@@ -76,6 +77,7 @@ import { Component } from '@angular/core';
 export class ClientTreeComponent {
 
   rows = [];
+  rowExternalDrag = ['item'];
 
   constructor() {
     this.fetch((data) => {
