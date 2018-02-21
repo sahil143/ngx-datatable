@@ -79,6 +79,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
         [displayCheck]="displayCheck"
         [treeFromRelation]="treeFromRelation"
         [rowsDraggable]="rowsDraggable"
+        [rowDragHandle]="rowDragHandle"
         (page)="onBodyPage($event)"
         (activate)="activate.emit($event)"
         (rowContextmenu)="onRowContextmenu($event)"
@@ -454,6 +455,11 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
    * Rows are draggable
    */
   @Input() rowsDraggable: boolean = false;
+
+  /**
+   * Handle to drag rows
+   */
+  @Input() rowDragHandle: string = null;
 
   /**
    * output for row drop

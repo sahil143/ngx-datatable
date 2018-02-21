@@ -15,6 +15,7 @@ import { Component } from '@angular/core';
       <ngx-datatable
         [rowsDraggable]="true"
         (rowDrop)="onRowDrop($event)"
+        [rowDragHandle]="'.handleDrag'"
         class="material"
         [columnMode]="'flex'"
         [headerHeight]="50"
@@ -24,6 +25,16 @@ import { Component } from '@angular/core';
         [treeToRelation]="'name'"
         [rows]="rows"
         (treeAction)="onTreeAction($event)">
+        <ngx-datatable-column
+              [width]="50"
+              [resizeable]="false"
+              [sortable]="false"
+              [cellClass]="'cell-class'"
+              [frozenLeft]="false">
+              <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                <i class="handleDrag icon datatable-icon-collapse" style="cursor: pointer;"></i>
+              </ng-template>
+          </ngx-datatable-column>
         <ngx-datatable-column name="Name" [flexGrow]="3" [isTreeColumn]="true">
           <ng-template let-value="value" ngx-datatable-cell-template>
             {{value}}

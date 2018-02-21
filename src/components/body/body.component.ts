@@ -31,7 +31,8 @@ import { MouseEvent } from '../../events';
         [scrollWidth]="columnGroupWidths?.total"
         (scroll)="onBodyScroll($event)">
         <datatable-row-wrapper
-          draggable [dragEnabled]="rowsDraggable" [dragData]="group" [dragScope]="[calculateDnDScope(group), 'item']"
+          draggable [dragEnabled]="rowsDraggable" [dragHandle]="rowDragHandle"
+                     [dragData]="group" [dragScope]="[calculateDnDScope(group), 'item']"
           droppable [dropEnabled]="rowsDraggable" [dropScope]="calculateDnDScope(group)"
           (onDrop)="onItemDrop($event, group)"
           [groupedRows]="groupedRows"
@@ -121,6 +122,7 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   @Input() virtualization: boolean;
   @Input() toTreeRelation: string;
   @Input() rowsDraggable: boolean;
+  @Input() rowDragHandle: string;
 
   @Input() set pageSize(val: number) {
     this._pageSize = val;
