@@ -81,6 +81,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
         [rowsDraggable]="rowsDraggable"
         [rowDragHandle]="rowDragHandle"
         [rowExternalDrag]="rowExternalDrag"
+        [rowExternalDrop]="rowExternalDrop"
         (page)="onBodyPage($event)"
         (activate)="activate.emit($event)"
         (rowContextmenu)="onRowContextmenu($event)"
@@ -465,7 +466,12 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
   /**
    * Drag outside of table
    */
-  @Input() rowExternalDrag: string[] = [];
+  @Input() rowExternalDrag: string;
+
+  /**
+   * Drop outside of table
+   */
+  @Input() rowExternalDrop: string;
 
   /**
    * output for row drop

@@ -1,61 +1,76 @@
 [
-    {
+    {   "id": "1a",
         "name": "Ethel Price",
         "gender": "female",
         "company": "Johnson, Johnson and Partners, LLC CMP DDC",
         "age": 22,
-        "treeStatus": "collapsed"
+        "treeStatus": "collapsed",
+        "dragScope": "a"
     },
-    {
+    {   "id": "1b",
         "name": "Claudine Neal",
         "gender": "female",
         "company": "Sealoud",
         "age": 55,
-        "treeStatus": "disabled"
+        "treeStatus": "disabled",
+        "dragScope": "b"
     },
-    {
+    {   "id": "1c",
         "name": "Beryl Rice",
         "gender": "female",
         "company": "Velity",
         "age": 67,
-        "treeStatus": "disabled"
+        "treeStatus": "disabled",
+        "dragScope": "c"
     },
-    {
+    {  
+        "id": "1ab",
         "name": "Wilder Gonzales",
         "gender": "male",
         "company": "Geekko",
-        "treeStatus": "disabled"
+        "treeStatus": "disabled",
+        "dragScope": ["a", "b"]
     },
     {
+        "id": "1ac",
         "name": "Georgina Schultz",
         "gender": "female",
         "company": "Suretech",
-        "treeStatus": "collapsed"
+        "treeStatus": "collapsed",
+        "dragScope": ["a", "c"]
     },
     {
+        "id": "1bc",
         "name": "Carroll Buchanan",
         "gender": "male",
         "company": "Ecosys",
-        "treeStatus": "disabled"
+        "treeStatus": "disabled",
+        "dragScope": ["b", "c"]
     },
     {
+        "id": "1abc",
         "name": "Valarie Atkinson",
         "gender": "female",
         "company": "Hopeli",
-        "treeStatus": "disabled"
+        "treeStatus": "disabled",
+        "dragScope": ["a", "b", "c"]
     },
     {
+        "id": "1a",
         "name": "Schroeder Mathews",
         "gender": "male",
         "company": "Polarium",
         "manager": "Ethel Price",
-        "treeStatus": "disabled"
+        "treeStatus": "disabled",
+        "dragScope": "a"
     },
     {
+        "id": "1c",
         "name": "Lynda Mendoza",
         "gender": "female",
         "company": "Dogspa",
         "manager": "Georgina Schultz",
-        "treeStatus": "disabled"
+        "treeStatus": "disabled",
+        "dragScope": "c"
     }
 ]

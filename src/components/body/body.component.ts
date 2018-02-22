@@ -33,7 +33,7 @@ import { MouseEvent } from '../../events';
         <datatable-row-wrapper
           draggable [dragEnabled]="rowsDraggable" [dragHandle]="rowDragHandle"
                      [dragData]="group" [dragScope]="calculateDragScope(group)"
-          droppable [dropEnabled]="rowsDraggable" [dropScope]="calculateDnDScope(group)"
+          droppable [dropEnabled]="rowsDraggable" [dropScope]="calculateDropScope(group)"
           (onDrop)="onItemDrop($event, group)"
           [groupedRows]="groupedRows"
           *ngFor="let group of temp; let i = index; trackBy: rowTrackingFn;"
@@ -123,7 +123,8 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   @Input() toTreeRelation: string;
   @Input() rowsDraggable: boolean;
   @Input() rowDragHandle: string;
-  @Input() rowExternalDrag: string[];
+  @Input() rowExternalDrag: string;
+  @Input() rowExternalDrop: string;
 
   @Input() set pageSize(val: number) {
     this._pageSize = val;
@@ -240,6 +241,7 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   listener: any;
   rowIndexes: any = new Map();
   rowExpansions: any = new Map();
+  isTree: boolean;
 
   _rows: any[];
   _bodyHeight: any;
@@ -295,6 +297,12 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
           this.cd.markForCheck();
         });
     }
+
+    this.columns.forEach((col) => {
+      if(col.isTreeColumn === true) {
+        this.isTree = true;
+      }
+    });
   }
 
   /**
@@ -734,8 +742,28 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
     return parent + level;
   }
 
+  calculateExternalScope(row, key, calculatedScope) {
+    if(row.hasOwnProperty(key) &&
+      row[key] && typeof(row[key]) === 'string') {
+      return [calculatedScope, row[key]];
+    } else if(row.hasOwnProperty(key) &&
+          row[key] && Array.isArray(row[key])) {
+      return [calculatedScope, ...row[key]];
+    } else {
+      return calculatedScope;
+    }
+  }
+
   calculateDragScope(row) {
-    return [this.calculateDnDScope(row), ...this.rowExternalDrag];
+    return this.isTree ?
+           this.calculateExternalScope(row, this.rowExternalDrag, this.calculateDnDScope(row)) :
+           this.calculateExternalScope(row, this.rowExternalDrag, 'default');
+  }
+
+  calculateDropScope(row) {
+    return this.isTree ?
+           this.calculateExternalScope(row, this.rowExternalDrop, this.calculateDnDScope(row)) :
+           this.calculateExternalScope(row, this.rowExternalDrop, 'default');
   }
 
   onItemDrop(e, g) {
