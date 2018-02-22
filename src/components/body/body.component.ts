@@ -31,9 +31,9 @@ import { MouseEvent } from '../../events';
         [scrollWidth]="columnGroupWidths?.total"
         (scroll)="onBodyScroll($event)">
         <datatable-row-wrapper
-          draggable [dragEnabled]="rowsDraggable" [dragHandle]="rowDragHandle"
+          draggable [dragEnabled]="rowDraggable" [dragHandle]="rowDragHandle"
                      [dragData]="group" [dragScope]="calculateDragScope(group)"
-          droppable [dropEnabled]="rowsDraggable" [dropScope]="calculateDropScope(group)"
+          droppable [dropEnabled]="rowDraggable" [dropScope]="calculateDropScope(group)"
           (onDrop)="onItemDrop($event, group)"
           [groupedRows]="groupedRows"
           *ngFor="let group of temp; let i = index; trackBy: rowTrackingFn;"
@@ -121,7 +121,7 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   @Input() groupRowsBy: string;
   @Input() virtualization: boolean;
   @Input() toTreeRelation: string;
-  @Input() rowsDraggable: boolean;
+  @Input() rowDraggable: boolean;
   @Input() rowDragHandle: string;
   @Input() rowExternalDrag: string;
   @Input() rowExternalDrop: string;

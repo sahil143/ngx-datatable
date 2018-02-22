@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
         </small>
       </h3>
       <ngx-datatable
-        [rowsDraggable]="true"
+        [rowDraggable]="true"
         (rowDrop)="onRowDrop($event)"
         [rowDragHandle]="'.handleDrag'"
         [rowExternalDrag]="'dragScope'"

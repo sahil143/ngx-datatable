@@ -16,7 +16,7 @@ import { setTimeout } from 'timers';
       <ngx-datatable
         class="material fullscreen"
         style="top: 52px"
-        [rowsDraggable]="true"
+        [rowDraggable]="true"
         (rowDrop)="onRowDrop($event)"
         [columnMode]="'force'"
         [headerHeight]="50"
