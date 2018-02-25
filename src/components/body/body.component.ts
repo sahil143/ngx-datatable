@@ -31,6 +31,10 @@ import { MouseEvent } from '../../events';
         [scrollWidth]="columnGroupWidths?.total"
         (scroll)="onBodyScroll($event)">
         <datatable-row-wrapper
+          draggable [dragEnabled]="rowDraggable" [dragHandle]="rowDragHandle"
+                     [dragData]="group" [dragScope]="calculateDragScope(group)"
+          droppable [dropEnabled]="rowDraggable" [dropScope]="calculateDropScope(group)"
+          (onDrop)="onItemDrop($event, group)"
           [groupedRows]="groupedRows"
           *ngFor="let group of temp; let i = index; trackBy: rowTrackingFn;"
           [innerWidth]="innerWidth"
@@ -117,6 +121,10 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   @Input() groupRowsBy: string;
   @Input() virtualization: boolean;
   @Input() toTreeRelation: string;
+  @Input() rowDraggable: boolean;
+  @Input() rowDragHandle: string;
+  @Input() rowExternalDrag: string;
+  @Input() rowExternalDrop: string;
 
   @Input() set pageSize(val: number) {
     this._pageSize = val;
@@ -199,6 +207,7 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   @Output() detailToggle: EventEmitter<any> = new EventEmitter();
   @Output() rowContextmenu = new EventEmitter<{ event: MouseEvent, row: any }>(false);
   @Output() treeAction: EventEmitter<any> = new EventEmitter();
+  @Output() rowDrop: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(ScrollerComponent) scroller: ScrollerComponent;
 
@@ -232,6 +241,7 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   listener: any;
   rowIndexes: any = new Map();
   rowExpansions: any = new Map();
+  isTree: boolean;
 
   _rows: any[];
   _bodyHeight: any;
@@ -287,6 +297,12 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
           this.cd.markForCheck();
         });
     }
+
+    this.columns.forEach((col) => {
+      if(col.isTreeColumn === true) {
+        this.isTree = true;
+      }
+    });
   }
 
   /**
@@ -710,6 +726,52 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
 
   onTreeAction(row: any) {
     this.treeAction.emit({ row });
+  }
+
+  calculateDnDScope(row) {
+    let parent = '0';
+    if (row.hasOwnProperty(this.treeFromRelation) &&
+      row[this.treeFromRelation]) {
+        parent = row[this.treeFromRelation] + ''; // + '' to stringify
+      }
+    let level = '0';
+    if (row.hasOwnProperty('level') &&
+      row['level']) {
+        level = row['level'] + ''; // + '' to stringify
+      }
+    return parent + level;
+  }
+
+  calculateExternalScope(row, key, calculatedScope) {
+    if(row.hasOwnProperty(key) &&
+      row[key] && typeof(row[key]) === 'string') {
+      return [calculatedScope, row[key]];
+    } else if(row.hasOwnProperty(key) &&
+          row[key] && Array.isArray(row[key])) {
+      return [calculatedScope, ...row[key]];
+    } else {
+      return calculatedScope;
+    }
+  }
+
+  calculateDragScope(row) {
+    return this.isTree ?
+           this.calculateExternalScope(row, this.rowExternalDrag, this.calculateDnDScope(row)) :
+           this.calculateExternalScope(row, this.rowExternalDrag, 'default');
+  }
+
+  calculateDropScope(row) {
+    return this.isTree ?
+           this.calculateExternalScope(row, this.rowExternalDrop, this.calculateDnDScope(row)) :
+           this.calculateExternalScope(row, this.rowExternalDrop, 'default');
+  }
+
+  onItemDrop(e, g) {
+    this.rowDrop.emit({
+      src: e.dragData,
+      nativeEvent: e.nativeEvent,
+      target: g
+    });
   }
 
 }

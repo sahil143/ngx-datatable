@@ -78,12 +78,17 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
         [selectCheck]="selectCheck"
         [displayCheck]="displayCheck"
         [treeFromRelation]="treeFromRelation"
+        [rowDraggable]="rowDraggable"
+        [rowDragHandle]="rowDragHandle"
+        [rowExternalDrag]="rowExternalDrag"
+        [rowExternalDrop]="rowExternalDrop"
         (page)="onBodyPage($event)"
         (activate)="activate.emit($event)"
         (rowContextmenu)="onRowContextmenu($event)"
         (select)="onBodySelect($event)"
         (scroll)="onBodyScroll($event)"
-        (treeAction)="onTreeAction($event)">
+        (treeAction)="onTreeAction($event)"
+        (rowDrop)="onRowDrop($event)">
       </datatable-body>
       <datatable-footer
         *ngIf="footerHeight"
@@ -449,6 +454,31 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
   @Input() treeToRelation: string;
 
   /**
+   * Rows are draggable
+   */
+  @Input() rowDraggable: boolean = false;
+
+  /**
+   * Handle to drag rows
+   */
+  @Input() rowDragHandle: string = null;
+
+  /**
+   * Drag outside of table
+   */
+  @Input() rowExternalDrag: string;
+
+  /**
+   * Drop outside of table
+   */
+  @Input() rowExternalDrop: string;
+
+  /**
+   * output for row drop
+   */
+  @Output() rowDrop: EventEmitter<any> = new EventEmitter();
+
+  /**
    * Body was scrolled typically in a `scrollbarV:true` scenario.
    */
   @Output() scroll: EventEmitter<any> = new EventEmitter();
@@ -493,7 +523,7 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
   /**
    * A row was expanded ot collapsed for tree
    */
-  @Output() treeAction: EventEmitter<any> = new EventEmitter();
+  @Output() treeAction: EventEmitter<any> = new EventEmitter(); 
 
   /**
    * CSS class applied if the header height if fixed height.
@@ -1117,5 +1147,9 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
     const rowIndex = this._rows.findIndex(r =>
       r[this.treeToRelation] === event.row[this.treeToRelation]);
     this.treeAction.emit({row, rowIndex});
+  }
+
+  onRowDrop(event: any) {
+    this.rowDrop.emit(event);
   }
 }
