@@ -16,6 +16,7 @@ import { Component } from '@angular/core';
       <ngx-datatable
         [rowDraggable]="true"
         (rowDrop)="onRowDrop($event)"
+        (rowDrag)="onRowDrag($event)"
         [rowDragHandle]="'.handleDrag'"
         [rowExternalDrag]="'dragScope'"
         class="material"
@@ -148,6 +149,10 @@ export class ClientTreeComponent {
       ...srcelement,
       ...this.rows.slice(targetindex + 1)
     ];
+  }
+
+  onRowDrag(event) {
+    console.log(event);
   }
 
   outDrop(event, str) {

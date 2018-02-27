@@ -34,8 +34,9 @@ import { MouseEvent } from '../../events';
         <datatable-row-wrapper
           draggable [dragEnabled]="rowDraggable" [dragHandle]="rowDragHandle"
                      [dragData]="group" [dragScope]="calculateDragScope(group)"
+                     (onDragStart)="onItemDrag($event, group)"
           droppable [dropEnabled]="rowDraggable" [dropScope]="calculateDropScope(group)"
-          (onDrop)="onItemDrop($event, group)"
+                    (onDrop)="onItemDrop($event, group)"
           [groupedRows]="groupedRows"
           *ngFor="let group of temp; let i = index; trackBy: rowTrackingFn;"
           [innerWidth]="innerWidth"
@@ -209,6 +210,7 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   @Output() rowContextmenu = new EventEmitter<{ event: MouseEvent, row: any }>(false);
   @Output() treeAction: EventEmitter<any> = new EventEmitter();
   @Output() rowDrop: EventEmitter<any> = new EventEmitter();
+  @Output() rowDrag: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(ScrollerComponent) scroller: ScrollerComponent;
 
@@ -774,6 +776,13 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
       src: e.dragData,
       nativeEvent: e.nativeEvent,
       target: g
+    });
+  }
+
+  onItemDrag(e, g) {
+    this.rowDrag.emit({
+      dragData: g,
+      nativeEvent: e
     });
   }
 

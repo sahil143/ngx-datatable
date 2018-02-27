@@ -88,7 +88,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
         (select)="onBodySelect($event)"
         (scroll)="onBodyScroll($event)"
         (treeAction)="onTreeAction($event)"
-        (rowDrop)="onRowDrop($event)">
+        (rowDrop)="onRowDrop($event)"
+        (rowDrag)="onRowDrag($event)">
       </datatable-body>
       <datatable-footer
         *ngIf="footerHeight"
@@ -477,6 +478,11 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
    * output for row drop
    */
   @Output() rowDrop: EventEmitter<any> = new EventEmitter();
+
+  /**
+   * output for row drag
+   */
+  @Output() rowDrag: EventEmitter<any> = new EventEmitter();
 
   /**
    * Body was scrolled typically in a `scrollbarV:true` scenario.
@@ -1151,5 +1157,9 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
 
   onRowDrop(event: any) {
     this.rowDrop.emit(event);
+  }
+
+  onRowDrag(event: any) {
+    this.rowDrag.emit(event);
   }
 }
