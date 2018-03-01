@@ -21,6 +21,7 @@ import { Component } from '@angular/core';
         [treeFromRelation]="'manager'"
         [treeToRelation]="'name'"
         [rows]="rows"
+        [rowDraggable]="true"
         (treeAction)="onTreeAction($event)">
         <ngx-datatable-column name="Name" [flexGrow]="3" [isTreeColumn]="true">
           <ng-template let-value="value" ngx-datatable-cell-template>

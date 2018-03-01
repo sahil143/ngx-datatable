@@ -77,12 +77,18 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
         [rowClass]="rowClass"
         [selectCheck]="selectCheck"
         [displayCheck]="displayCheck"
+
+        [rowDraggable]="rowDraggable"
+        [rowDragHandle]="rowDragHandle"
+        [treeFromRelation]="treeFromRelation"
+
         (page)="onBodyPage($event)"
         (activate)="activate.emit($event)"
         (rowContextmenu)="onRowContextmenu($event)"
         (select)="onBodySelect($event)"
         (scroll)="onBodyScroll($event)"
-        (treeAction)="onTreeAction($event)">
+        (treeAction)="onTreeAction($event)"
+        (onRowDrop)="onRowDrop.emit($event)">
       </datatable-body>
       <datatable-footer
         *ngIf="footerHeight"
@@ -447,6 +453,10 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
    */
   @Input() treeToRelation: string;
 
+  // DnD stuff
+  @Input() rowDraggable: boolean = false;
+  @Input() rowDragHandle: string | null = null;
+
   /**
    * Body was scrolled typically in a `scrollbarV:true` scenario.
    */
@@ -493,6 +503,8 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
    * A row was expanded ot collapsed for tree
    */
   @Output() treeAction: EventEmitter<any> = new EventEmitter();
+
+  @Output() onRowDrop: EventEmitter<any> = new EventEmitter();
 
   /**
    * CSS class applied if the header height if fixed height.

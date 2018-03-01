@@ -32,8 +32,8 @@ import { MouseEvent } from '../../events';
         (scroll)="onBodyScroll($event)">
         <datatable-row-wrapper
           draggable [dragEnabled]="rowDraggable" [dragHandle]="rowDragHandle"
-                    [dragData]="group" dragScope="'default'"
-          droppable [dropEnabled]="rowDraggable" [dropScope]="'default'"
+                    [dragData]="group" [dragScope]="calculateDnDScope(group)"
+          droppable [dropEnabled]="rowDraggable" [dropScope]="calculateDnDScope(group)"
                     (onDrop)="onItemDrop($event, group)"
           [groupedRows]="groupedRows"
           *ngFor="let group of temp; let i = index; trackBy: rowTrackingFn;"
@@ -120,7 +120,8 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
   @Input() virtualization: boolean;
 
   @Input() rowDraggable: boolean = false;
-  @Input() rowDragHandle: string = '';
+  @Input() rowDragHandle: string | null;
+  @Input() treeFromRelation: string | null = null;
 
   @Input() set pageSize(val: number) {
     this._pageSize = val;
@@ -718,10 +719,24 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
 
   onItemDrop(event, group) {
     this.onRowDrop.emit({
-      source: event.target,
+      source: event.dragData,
       target: group,
       nativeEvent: event.nativeEvent
     });
+  }
+
+  calculateDnDScope(row) {
+    let parent = '0';
+    if (row.hasOwnProperty(this.treeFromRelation) &&
+      row[this.treeFromRelation]) {
+        parent = row[this.treeFromRelation] + ''; // + '' to stringify
+      }
+    let level = '0';
+    if (row.hasOwnProperty('level') &&
+      row['level']) {
+        level = row['level'] + ''; // + '' to stringify
+      }
+    return parent + level;
   }
 
 }

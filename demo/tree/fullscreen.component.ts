@@ -25,6 +25,8 @@ import { setTimeout } from 'timers';
         [rows]="rows"
         [treeFromRelation]="'parentId'"
         [treeToRelation]="'id'"
+        [rowDraggable]="true"
+        (onRowDrop)="rowDrop($event)"
         (treeAction)="onTreeAction($event)">
         <ngx-datatable-column name="Id" [width]="80"></ngx-datatable-column>
         <ngx-datatable-column name="Name" [isTreeColumn]="true" [width]="300">
@@ -106,6 +108,10 @@ export class FullScreenTreeComponent {
       this.rows[index].treeStatus = 'collapsed';
       this.rows = [...this.rows];
     }
+  }
+
+  rowDrop(event) {
+    console.log('####', event);
   }
 
 }
