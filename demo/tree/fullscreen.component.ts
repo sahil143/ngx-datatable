@@ -29,7 +29,7 @@ import { setTimeout } from 'timers';
         (onRowDrop)="rowDrop($event)"
         (treeAction)="onTreeAction($event)">
         <ngx-datatable-column name="Id" [width]="80"></ngx-datatable-column>
-        <ngx-datatable-column name="Name" [isTreeColumn]="true" [width]="300">
+        <ngx-datatable-column name="Name" [isTreeColumn]="true" [indentTree]="20" [width]="300">
           <ng-template ngx-datatable-cell-tree-expander>
             <i class="icon datatable-icon-up"></i>
           </ng-template>

@@ -213,4 +213,12 @@ export interface TableColumn {
    */
   isTreeColumn?: boolean;
 
+  /**
+   * Indents the tree by the number of pixels provided
+   *
+   * @type {number}
+   * @memberOf TableColumn
+   */
+  indentTree?: number;
+
 }

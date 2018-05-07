@@ -31,6 +31,7 @@ export class DataTableColumnDirective {
   @Input() headerClass: string | ((data: any) => string|any);
   @Input() cellClass: string | ((data: any) => string|any);
   @Input() isTreeColumn: boolean;
+@Input() indentTree: number = 50;
 
   @Input()
   @ContentChild(DataTableColumnCellDirective, { read: TemplateRef })
