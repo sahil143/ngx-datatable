@@ -64,23 +64,23 @@
   },
   "homepage": "https://github.com/swimlane/ngx-datatable#readme",
   "peerDependencies": {
-    "@angular/common": ">=4.0.1 || >5.0.0",
-    "@angular/compiler": ">=4.0.1 || >5.0.0",
-    "@angular/core": ">=4.0.1 || >5.0.0",
-    "@angular/platform-browser": ">=4.0.1 || >5.0.0",
-    "@angular/platform-browser-dynamic": ">=4.0.1 || >5.0.0",
+    "@angular/common": "<7.0.0",
+    "@angular/compiler": "<7.0.0",
+    "@angular/core": "<7.0.0",
+    "@angular/platform-browser": "<7.0.0",
+    "@angular/platform-browser-dynamic": "<7.0.0",
     "core-js": "^2.4.0",
-    "rxjs": "^5.0.0"
+    "rxjs": "6.2.2"
   },
   "devDependencies": {
-    "@angular/animations": "^4.0.1",
-    "@angular/common": "^4.0.1",
-    "@angular/compiler": "^4.0.1",
-    "@angular/compiler-cli": "^4.0.1",
-    "@angular/core": "^4.0.1",
-    "@angular/platform-browser": "^4.0.1",
-    "@angular/platform-browser-dynamic": "^4.0.1",
-    "@angular/platform-server": "^4.0.1",
+    "@angular/animations": "^6.1.6",
+    "@angular/common": "^6.1.6",
+    "@angular/compiler": "^6.1.6",
+    "@angular/compiler-cli": "^6.1.6",
+    "@angular/core": "^6.1.6",
+    "@angular/platform-browser": "^6.1.6",
+    "@angular/platform-browser-dynamic": "^6.1.6",
+    "@angular/platform-server": "^6.1.6",
     "@types/jasmine": "^2.8.2",
     "@types/node": "^8.0.53",
     "angular2-template-loader": "^0.6.2",
@@ -115,7 +115,8 @@
     "protractor": "^5.2.0",
     "replace": "^0.3.0",
     "rimraf": "^2.6.2",
-    "rxjs": "^5.5.2",
+    "rxjs": "6.2.2",
+    "rxjs-compat": "^6.3.3",
     "sass-loader": "^6.0.6",
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.19.0",
@@ -136,6 +137,6 @@
     "zone.js": "^0.8.18"
   },
   "dependencies": {
-    "ng-drag-drop": "^4.0.0"
+    "ng-drag-drop": "5.0.0"
   }
 }
